@@ -10,7 +10,7 @@ export class App {
   start() {
     const app = express();
     app.listen(port, hostname, () => {
-      console.log(`Started`);
+      console.log(`Server started on ${hostname}:${port}`);
     });
   }
 }
