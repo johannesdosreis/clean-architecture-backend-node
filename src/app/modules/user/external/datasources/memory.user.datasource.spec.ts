@@ -10,7 +10,7 @@ describe('MemoryUserDataSource', () => {
     });
 
     expect(user).toEqual(
-      new UserModel({ id: '0', name: 'john', email: 'john@example.com' })
+      new UserModel({ id: '0', name: 'john', email: 'john@example.com' }),
     );
   });
 });

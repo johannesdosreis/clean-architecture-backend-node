@@ -1,8 +1,4 @@
-import express from 'express';
-import {
-  ExpressAppAdapter,
-  IAppAdapter,
-} from './modules/core/adapters/express.app.adapter';
+import { IAppAdapter } from './modules/core/adapters/express.app.adapter';
 import { ExpressRouterAdapter } from './modules/core/adapters/express.router.adatapter';
 import { UserModule } from './modules/user/user.module';
 

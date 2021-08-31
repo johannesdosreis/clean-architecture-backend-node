@@ -18,7 +18,7 @@ describe('CreateUserUseCase', () => {
         email: args.email,
       });
       return Promise.resolve(user);
-    }
+    },
   );
 
   const repository = new UserRepository({ userDataSource: userDataSourceMock });
@@ -47,9 +47,9 @@ describe('CreateUserUseCase', () => {
         userOrFailure,
         matchW(
           (l) => l,
-          (r) => r
-        )
-      )
+          (r) => r,
+        ),
+      ),
     ).toEqual({
       id: '0',
       name: 'john',
@@ -61,7 +61,7 @@ describe('CreateUserUseCase', () => {
     userDataSourceMock.createUser.mockImplementation(
       async (args: ICreateUserCallArgs) => {
         throw new Error('');
-      }
+      },
     );
 
     const userOrFailure = await repository.createUser({
@@ -74,9 +74,9 @@ describe('CreateUserUseCase', () => {
         userOrFailure,
         matchW(
           (l) => l,
-          (r) => r
-        )
-      )
+          (r) => r,
+        ),
+      ),
     ).toEqual(new ConnectionError(FailureMessages.ConnectionErrorMessage));
   });
 });

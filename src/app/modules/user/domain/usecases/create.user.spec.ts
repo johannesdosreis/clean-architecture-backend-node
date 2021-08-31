@@ -12,7 +12,7 @@ describe('CreateUserUseCase', () => {
     async (args: ICreateUserCallArgs) => {
       const user = new User({ id: '0', name: args.name, email: args.email });
       return Promise.resolve(right(user));
-    }
+    },
   );
 
   const usecase = new CreateUser({ userRepository: userRepositoryMock });
@@ -41,9 +41,9 @@ describe('CreateUserUseCase', () => {
         userOrFailure,
         matchW(
           (l) => l,
-          (r) => r
-        )
-      )
+          (r) => r,
+        ),
+      ),
     ).toEqual({
       id: '0',
       name: 'john',
