@@ -1,3 +1,7 @@
+import { matchW } from 'fp-ts/lib/Either';
+import { pipe } from 'fp-ts/lib/function';
+import { Failure } from '../../domain/errors/failure';
+import { IUser } from '../../domain/interfaces/user.entity.interface';
 import {
   CreateUser,
   ICreateUserCallArgs,
@@ -14,7 +18,15 @@ export class UserController {
     this.createUserUseCase = args.createUserUseCase;
   }
 
-  createUser(user: ICreateUserCallArgs) {
-    this.createUserUseCase.call(user);
+  async createUser(newUser: ICreateUserCallArgs): Promise<Failure | IUser> {
+    const user = await this.createUserUseCase.call(newUser);
+
+    return pipe(
+      user,
+      matchW(
+        (l) => l,
+        (r) => r,
+      ),
+    );
   }
 }

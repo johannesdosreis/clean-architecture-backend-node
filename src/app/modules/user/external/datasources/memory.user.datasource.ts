@@ -3,17 +3,18 @@ import { IUserDataSource } from '../../infra/interfaces/user.datasource.interfac
 import { UserModel } from '../../infra/models/user.model';
 
 export class MemoryUserDataSource implements IUserDataSource {
-  users = [];
+  users: UserModel[] = [];
   index = 0;
   createUser(args: ICreateUserCallArgs): Promise<UserModel> {
     const user = new UserModel({
-      id: (this.index++).toString(),
+      id: this.index.toString(),
       name: args.name,
       email: args.email,
     });
+    this.index++;
 
-    const newIndex = this.users.push(JSON.stringify(user));
+    const newIndex = this.users.push(user);
     console.log(this.users);
-    return Promise.resolve(JSON.parse(this.users[newIndex - 1]));
+    return Promise.resolve(this.users[newIndex - 1]);
   }
 }
