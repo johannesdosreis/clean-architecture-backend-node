@@ -25,10 +25,10 @@ export class App {
 
   start(): void {
     const port = process.env.PORT || 3000;
-    const hostname = process.env.HOSTNAME || 'localhost';
-
-    this.app.listen(parseInt(port.toString(), 10), hostname, () => {
-      console.log(`Server started on ${hostname}:${port}`);
+    const host = process.env.HOST || 'localhost';
+    this.app.listen(parseInt(port.toString(), 10), host, () => {
+      // eslint-disable-next-line no-console
+      console.info(`Server started on ${host}:${port}`);
     });
   }
 }

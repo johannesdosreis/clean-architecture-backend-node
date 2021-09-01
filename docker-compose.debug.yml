@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  cleanarchitecturebackend:
+    image: cleanarchitecturebackend
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./Dockerfile.development
+    volumes:
+      - .:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    environment:
+      NODE_ENV: development
+      HOST: ${HOST}
+      PORT: ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+      - 9229:9229
+    command: ['yarn', 'debug']
+
+volumes:
+  node_modules:
