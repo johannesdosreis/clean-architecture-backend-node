@@ -1,5 +1,5 @@
 import { mock } from 'jest-mock-extended';
-import { matchW, right } from 'fp-ts/lib/Either';
+import { matchW } from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
 import { IUserDataSource } from '../interfaces/user.datasource.interface';
 import { ICreateUserCallArgs } from '../../domain/usecases/create.user';
@@ -24,7 +24,7 @@ describe('CreateUserUseCase', () => {
   const repository = new UserRepository({ userDataSource: userDataSourceMock });
 
   it('should call repository one time with correct parameters', async () => {
-    const userOrFailure = await repository.createUser({
+    await repository.createUser({
       name: 'john',
       email: 'john@example.com',
     });
@@ -46,8 +46,8 @@ describe('CreateUserUseCase', () => {
       pipe(
         userOrFailure,
         matchW(
-          (l) => l,
-          (r) => r,
+          l => l,
+          r => r,
         ),
       ),
     ).toEqual({
@@ -73,8 +73,8 @@ describe('CreateUserUseCase', () => {
       pipe(
         userOrFailure,
         matchW(
-          (l) => l,
-          (r) => r,
+          l => l,
+          r => r,
         ),
       ),
     ).toEqual(new ConnectionError(FailureMessages.ConnectionErrorMessage));

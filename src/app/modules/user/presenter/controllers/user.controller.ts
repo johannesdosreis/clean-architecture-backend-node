@@ -24,8 +24,8 @@ export class UserController {
     return pipe(
       user,
       matchW(
-        (l) => l,
-        (r) => r,
+        l => l,
+        r => r,
       ),
     );
   }

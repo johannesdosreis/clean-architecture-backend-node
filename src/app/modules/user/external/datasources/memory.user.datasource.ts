@@ -14,7 +14,6 @@ export class MemoryUserDataSource implements IUserDataSource {
     this.index++;
 
     const newIndex = this.users.push(user);
-    console.log(this.users);
     return Promise.resolve(this.users[newIndex - 1]);
   }
 }

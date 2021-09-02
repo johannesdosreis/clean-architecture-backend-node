@@ -1,15 +1,12 @@
 import express from 'express';
-
-export interface IAppAdapter {
-  use(callback: (...handlers: any[]) => any): any;
-  listen(port: number, hostname: string, callback: () => void): any;
-}
+import { IAppAdapter } from '../interfaces/app.adapter.interface';
 
 export class ExpressAppAdapter implements IAppAdapter {
   app: express.Application;
   constructor() {
     this.app = express();
     this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
   }
 
   use(callback: (...handlers: any[]) => any) {

@@ -1,17 +1,20 @@
-import { IAppAdapter } from './modules/core/adapters/express.app.adapter';
 import { ExpressRouterAdapter } from './modules/core/adapters/express.router.adatapter';
+import { IAppAdapter } from './modules/core/interfaces/app.adapter.interface';
+import { ILoggerAdapter } from './modules/core/interfaces/logger.adapter.interface';
 import { UserModule } from './modules/user/user.module';
 
 export interface IAppArgs {
   app: IAppAdapter;
+  logger: ILoggerAdapter;
 }
 
 export class App {
   app: IAppAdapter;
+  logger: ILoggerAdapter;
 
   constructor(args: IAppArgs) {
-    // this.app = express();
     this.app = args.app;
+    this.logger = args.logger;
 
     this.setupModules();
   }

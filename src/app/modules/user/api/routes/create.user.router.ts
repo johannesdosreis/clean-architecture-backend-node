@@ -23,8 +23,6 @@ export class CreateUserRouter implements IRouter {
 
     // }
 
-    console.log('oi');
-
     return {
       statusCode: 200,
       body: userOrFailure,

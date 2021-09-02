@@ -18,7 +18,7 @@ describe('CreateUserUseCase', () => {
   const usecase = new CreateUser({ userRepository: userRepositoryMock });
 
   it('should call repository one time with correct parameters', async () => {
-    const userOrFailure = await usecase.call({
+    await usecase.call({
       name: 'john',
       email: 'john@example.com',
     });
@@ -40,8 +40,8 @@ describe('CreateUserUseCase', () => {
       pipe(
         userOrFailure,
         matchW(
-          (l) => l,
-          (r) => r,
+          l => l,
+          r => r,
         ),
       ),
     ).toEqual({

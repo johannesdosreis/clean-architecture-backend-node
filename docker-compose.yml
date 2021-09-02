@@ -1,8 +1,8 @@
 version: '3.9'
 
 services:
-  cleanarchitecturebackend:
-    image: cleanarchitecturebackend
+  clean_architecture_backend_node:
+    image: clean_architecture_backend_node
     restart: unless-stopped
     build:
       context: .
