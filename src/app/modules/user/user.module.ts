@@ -5,23 +5,19 @@ import { MemoryUserDataSource } from './external/datasources/memory.user.datasou
 import { UserRepository } from './infra/repositories/user.repository';
 import { UserController } from './presenter/controllers/user.controller';
 
-export interface IUserModuleArgs {
-  router: IRouterAdapter;
-}
-
 export class UserModule {
   router: IRouterAdapter;
 
-  constructor(args: IUserModuleArgs) {
-    this.router = args.router;
+  constructor(router: IRouterAdapter) {
+    this.router = router;
   }
 
   setupRoutes(): void {
     const userDataSource = new MemoryUserDataSource();
-    const userRepository = new UserRepository({ userDataSource });
-    const createUserUseCase = new CreateUser({ userRepository });
-    const userController = new UserController({ createUserUseCase });
-    const createUserRouter = new CreateUserRouter({ userController });
+    const userRepository = new UserRepository(userDataSource);
+    const createUserUseCase = new CreateUser(userRepository);
+    const userController = new UserController(createUserUseCase);
+    const createUserRouter = new CreateUserRouter(userController);
     this.router.post('/users', createUserRouter);
   }
 }

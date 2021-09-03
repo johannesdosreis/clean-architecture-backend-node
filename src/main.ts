@@ -6,10 +6,7 @@ import { WinstonLoggerAdapter } from './app/modules/core/adapters/winston.logger
 dotenv.config();
 
 const main = () => {
-  const app = new App({
-    app: new ExpressAppAdapter(),
-    logger: new WinstonLoggerAdapter(),
-  });
+  const app = new App(new ExpressAppAdapter(), new WinstonLoggerAdapter());
   app.start();
 };
 

@@ -3,28 +3,21 @@ import { ConnectionError, Failure } from '../../domain/errors/failure';
 import { FailureMessages } from '../../domain/errors/failure.messages';
 import { IUser } from '../../domain/interfaces/user.entity.interface';
 import { IUserRepository } from '../../domain/interfaces/user.repository.interface';
-import { ICreateUserCallArgs } from '../../domain/usecases/create.user';
 import { IUserDataSource } from '../interfaces/user.datasource.interface';
-
-export interface IUserRepositoryArgs {
-  userDataSource: IUserDataSource;
-}
-
-export interface IUserRepositoryCallArgs {
-  name: string;
-  email: string;
-}
 
 export class UserRepository implements IUserRepository {
   userDataSource: IUserDataSource;
 
-  constructor(args: IUserRepositoryArgs) {
-    this.userDataSource = args.userDataSource;
+  constructor(userDataSource: IUserDataSource) {
+    this.userDataSource = userDataSource;
   }
 
-  async createUser(args: ICreateUserCallArgs): Promise<Either<Failure, IUser>> {
+  async createUser(
+    name: string,
+    email: string,
+  ): Promise<Either<Failure, IUser>> {
     try {
-      const user = await this.userDataSource.createUser(args);
+      const user = await this.userDataSource.createUser(name, email);
       return right(user);
     } catch (error) {
       return left(new ConnectionError(FailureMessages.ConnectionErrorMessage));

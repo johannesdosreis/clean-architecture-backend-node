@@ -5,9 +5,9 @@ export class User implements IUser {
   name: string;
   email: string;
 
-  constructor(user: IUser) {
-    this.id = user.id;
-    this.name = user.name;
-    this.email = user.email;
+  constructor(id: string, name: string, email: string) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
   }
 }

@@ -2,7 +2,6 @@ import { mock } from 'jest-mock-extended';
 import { matchW } from 'fp-ts/lib/Either';
 import { pipe } from 'fp-ts/lib/function';
 import { IUserDataSource } from '../interfaces/user.datasource.interface';
-import { ICreateUserCallArgs } from '../../domain/usecases/create.user';
 import { UserModel } from '../models/user.model';
 import { UserRepository } from './user.repository';
 import { FailureMessages } from '../../domain/errors/failure.messages';
@@ -11,36 +10,29 @@ import { ConnectionError } from '../../domain/errors/failure';
 describe('CreateUserUseCase', () => {
   const userDataSourceMock = mock<IUserDataSource>();
   userDataSourceMock.createUser.mockImplementation(
-    async (args: ICreateUserCallArgs) => {
-      const user = new UserModel({
-        id: '0',
-        name: args.name,
-        email: args.email,
-      });
+    async (name: string, email: string) => {
+      const user = new UserModel('0', name, email);
       return Promise.resolve(user);
     },
   );
 
-  const repository = new UserRepository({ userDataSource: userDataSourceMock });
+  const repository = new UserRepository(userDataSourceMock);
 
   it('should call repository one time with correct parameters', async () => {
-    await repository.createUser({
-      name: 'john',
-      email: 'john@example.com',
-    });
+    await repository.createUser('john', 'john@example.com');
 
     expect(userDataSourceMock.createUser).toHaveBeenCalledTimes(1);
-    expect(userDataSourceMock.createUser).toHaveBeenCalledWith({
-      name: 'john',
-      email: 'john@example.com',
-    });
+    expect(userDataSourceMock.createUser).toHaveBeenCalledWith(
+      'john',
+      'john@example.com',
+    );
   });
 
   it('should return a user', async () => {
-    const userOrFailure = await repository.createUser({
-      name: 'john',
-      email: 'john@example.com',
-    });
+    const userOrFailure = await repository.createUser(
+      'john',
+      'john@example.com',
+    );
 
     expect(
       pipe(
@@ -59,15 +51,15 @@ describe('CreateUserUseCase', () => {
 
   it('should return connection error', async () => {
     userDataSourceMock.createUser.mockImplementation(
-      async (args: ICreateUserCallArgs) => {
+      async (name: string, email: string) => {
         throw new Error('');
       },
     );
 
-    const userOrFailure = await repository.createUser({
-      name: 'error',
-      email: 'john@example.com',
-    });
+    const userOrFailure = await repository.createUser(
+      'error',
+      'john@example.com',
+    );
 
     expect(
       pipe(

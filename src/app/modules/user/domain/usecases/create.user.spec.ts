@@ -4,37 +4,31 @@ import { pipe } from 'fp-ts/lib/function';
 
 import { IUserRepository } from '../interfaces/user.repository.interface';
 import { User } from '../entities/user.entity';
-import { CreateUser, ICreateUserCallArgs } from './create.user';
+import { CreateUser } from './create.user';
 
 describe('CreateUserUseCase', () => {
   const userRepositoryMock = mock<IUserRepository>();
   userRepositoryMock.createUser.mockImplementation(
-    async (args: ICreateUserCallArgs) => {
-      const user = new User({ id: '0', name: args.name, email: args.email });
+    async (name: string, email: string) => {
+      const user = new User('0', name, email);
       return Promise.resolve(right(user));
     },
   );
 
-  const usecase = new CreateUser({ userRepository: userRepositoryMock });
+  const usecase = new CreateUser(userRepositoryMock);
 
   it('should call repository one time with correct parameters', async () => {
-    await usecase.call({
-      name: 'john',
-      email: 'john@example.com',
-    });
+    await usecase.call('john', 'john@example.com');
 
     expect(userRepositoryMock.createUser).toHaveBeenCalledTimes(1);
-    expect(userRepositoryMock.createUser).toHaveBeenCalledWith({
-      name: 'john',
-      email: 'john@example.com',
-    });
+    expect(userRepositoryMock.createUser).toHaveBeenCalledWith(
+      'john',
+      'john@example.com',
+    );
   });
 
   it('should return a user', async () => {
-    const userOrFailure = await usecase.call({
-      name: 'john',
-      email: 'john@example.com',
-    });
+    const userOrFailure = await usecase.call('john', 'john@example.com');
 
     expect(
       pipe(
