@@ -4,24 +4,24 @@ import { pipe } from 'fp-ts/lib/function';
 
 import { IUserRepository } from '../interfaces/user.repository.interface';
 import { User } from '../entities/user.entity';
-import { CreateUser } from './create.user';
+import { CreateUserUseCase } from './create.user.usecase';
 
 describe('CreateUserUseCase', () => {
   const userRepositoryMock = mock<IUserRepository>();
-  userRepositoryMock.createUser.mockImplementation(
+  userRepositoryMock.createUserRepository.mockImplementation(
     async (name: string, email: string) => {
       const user = new User('0', name, email);
       return Promise.resolve(right(user));
     },
   );
 
-  const usecase = new CreateUser(userRepositoryMock);
+  const usecase = new CreateUserUseCase(userRepositoryMock);
 
   it('should call repository one time with correct parameters', async () => {
     await usecase.call('john', 'john@example.com');
 
-    expect(userRepositoryMock.createUser).toHaveBeenCalledTimes(1);
-    expect(userRepositoryMock.createUser).toHaveBeenCalledWith(
+    expect(userRepositoryMock.createUserRepository).toHaveBeenCalledTimes(1);
+    expect(userRepositoryMock.createUserRepository).toHaveBeenCalledWith(
       'john',
       'john@example.com',
     );

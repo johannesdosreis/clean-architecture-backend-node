@@ -1,9 +1,10 @@
+import { UserModel } from '~/src/app/modules/user/infra/models/user.model';
 import { IHttpRequest } from '../../../core/interfaces/http.request.interface';
 import { IHttpResponse } from '../../../core/interfaces/http.response.interface';
 import { IRouter } from '../../../core/interfaces/router.interface';
 import { UserController } from '../../presenter/controllers/user.controller';
 
-export class CreateUserRouter implements IRouter {
+export class UpdateUserRouter implements IRouter {
   userController: UserController;
 
   constructor(userController: UserController) {
@@ -11,10 +12,9 @@ export class CreateUserRouter implements IRouter {
   }
 
   async route(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    const { name, email } = httpRequest.body;
-    const userOrFailure = await this.userController.createUserController(
-      name,
-      email,
+    const { id, name, email } = httpRequest.body;
+    const userOrFailure = await this.userController.udpateUserController(
+      new UserModel(id, name, email),
     );
 
     // TODO check failure

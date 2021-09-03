@@ -3,7 +3,7 @@ import { IHttpResponse } from '../../../core/interfaces/http.response.interface'
 import { IRouter } from '../../../core/interfaces/router.interface';
 import { UserController } from '../../presenter/controllers/user.controller';
 
-export class CreateUserRouter implements IRouter {
+export class ReadAllOrSearchUserRouter implements IRouter {
   userController: UserController;
 
   constructor(userController: UserController) {
@@ -11,11 +11,12 @@ export class CreateUserRouter implements IRouter {
   }
 
   async route(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    const { name, email } = httpRequest.body;
-    const userOrFailure = await this.userController.createUserController(
-      name,
-      email,
-    );
+    const { search } = httpRequest.query;
+
+    const usersOrFailure =
+      search && search !== ''
+        ? await this.userController.readAllUserController()
+        : await this.userController.readByFilterUserController(search);
 
     // TODO check failure
     // if (userOrFailure is Failure) {
@@ -24,7 +25,7 @@ export class CreateUserRouter implements IRouter {
 
     return {
       statusCode: 200,
-      body: userOrFailure,
+      body: usersOrFailure,
     };
   }
 }
