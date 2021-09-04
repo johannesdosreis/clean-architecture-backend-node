@@ -15,8 +15,8 @@ export class ReadAllOrSearchUserRouter implements IRouter {
 
     const usersOrFailure =
       search && search !== ''
-        ? await this.userController.readAllUserController()
-        : await this.userController.readByFilterUserController(search);
+        ? await this.userController.readByFilterUserController(search)
+        : await this.userController.readAllUserController();
 
     // TODO check failure
     // if (userOrFailure is Failure) {

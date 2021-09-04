@@ -103,7 +103,7 @@ export class UserController {
       user,
       matchW(
         l => l,
-        r => null,
+        () => null,
       ),
     );
   }

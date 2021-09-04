@@ -9,7 +9,7 @@ export class DeleteUserUseCase {
     this.userRepository = userRepository;
   }
 
-  async call(id: string): Promise<Either<Failure, void>> {
+  async call(id: string): Promise<Either<Failure, null>> {
     return await this.userRepository.deleteUserRepository(id);
   }
 }

@@ -17,7 +17,7 @@ export class ExpressRouterAdapter implements IRouterAdapter {
   }
 
   put(path: string, router: IRouter) {
-    this.router.post(path, ExpressRouterAdapter.adapt(router));
+    this.router.put(path, ExpressRouterAdapter.adapt(router));
   }
 
   patch(path: string, router: IRouter) {
